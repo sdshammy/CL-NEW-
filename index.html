@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RentRide Vehicle Rental System</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('your-background-image.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #007BFF;
+      color: white;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      background: #333;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+    }
+
+    nav ul li a:hover {
+      background: #575757;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .form-section {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      color: black;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .form-group label.blue-label {
+      color: blue;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .welcome-message {
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 50px;
+      color: yellow;
+    }
+
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .vehicle-item {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .vehicle-item img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .vehicle-price {
+      color: black;
+      font-weight: bold;
+    }
+
+    #thank-you-message {
+      display: none;
+      text-align: center;
+      margin: 20px;
+    }
+
+    /* Stylish Login Box */
+    #login-form {
+      background: linear-gradient(to right, #ffffffcc, #e6f0ff);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      margin: auto;
+      margin-top: 80px;
+      text-align: center;
+    }
+
+    #login-form h1 {
+      color: #007BFF;
+      margin-bottom: 20px;
+    }
+
+    #login-form input[type="text"],
+    #login-form input[type="password"] {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+    }
+
+    #login-form input[type="submit"] {
+      border: 2px solid black;
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #login-form input[type="submit"]:hover {
+      background-color: #ffea00;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Login Form -->
+  <div id="login-form">
+    <h1>Login</h1>
+    <form id="login" onsubmit="return authenticate(event)">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <input type="submit" value="Login" />
+    </form>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content" style="display: none;">
+    <header>
+      <h1>Welcome to RentRide</h1>
+      <p>Welcome, <span id="user-display"></span> | <a href="#" onclick="logout()" style="color: white;">Logout</a></p>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#home" onclick="showSection('home')">Home</a></li>
+        <li><a href="#vehicles" onclick="showSection('vehicles')">Vehicles</a></li>
+        <li><a href="#bookings" onclick="showSection('bookings')">Bookings</a></li>
+        <li><a href="#billing" onclick="showSection('billing')">Billing</a></li>
+        <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <!-- Home Section -->
+      <section id="home" class="section-content">
+        <div class="welcome-message">WELCOME TO RENT RIDE VEHICLES</div>
+      </section>
+
+      <!-- Vehicles Section -->
+      <section id="vehicles" class="section-content">
+        <h2 style="color: yellow;">Available Vehicles</h2>
+        <div class="vehicle-grid">
+          <div class="vehicle-item"><img src="benz.jpg" alt="Benz"><h3>Benz</h3><p class="vehicle-price">Price: 4000/-/day</p></div>
+          <div class="vehicle-item"><img src="Defender.jpg" alt="Defender"><h3>Defender</h3><p class="vehicle-price">Price: 8000/-/day</p></div>
+          <div class="vehicle-item"><img src="audi.jpg" alt="Audi"><h3>Audi</h3><p class="vehicle-price">Price: 3500/-/day</p></div>
+          <div class="vehicle-item"><img src="tata.jpg" alt="Tata"><h3>Tata</h3><p class="vehicle-price">Price: 2000/-/day</p></div>
+          <div class="vehicle-item"><img src="thar.jpg" alt="Thar"><h3>Thar</h3><p class="vehicle-price">Price: 2500/-/day</p></div>
+          <div class="vehicle-item"><img src="toyota.jpg" alt="Toyota"><h3>Toyota</h3><p class="vehicle-price">Price: 4500/-/day</p></div>
+        </div>
+      </section>
+
+      <!-- Bookings Section -->
+      <section id="bookings" class="section-content">
+        <h2 style="color: yellow;">Your Bookings</h2>
+        <form class="form-section" onsubmit="return showThankYou()">
+          <div class="form-group">
+            <label class="blue-label" for="vehicle-name">Vehicle Name:</label>
+            <input type="text" id="vehicle-name" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="rental-duration">Rental Duration (days):</label>
+            <input type="number" id="rental-duration" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="pickup-location">Pickup Location:</label>
+            <input type="text" id="pickup-location" required />
+          </div>
+          <input type="submit" value="Submit" />
+        </form>
+      </section>
+
+      <!-- Billing Section -->
+      <section id="billing" class="section-content">
+        <h2 style="color: yellow;">Billing</h2>
+        <form class="form-section" onsubmit="return showThankYou()">
+          <div class="form-group">
+            <label class="blue-label" for="billing-vehicle">Vehicle Name:</label>
+            <input type="text" id="billing-vehicle" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="billing-days">Rental Duration (days):</label>
+            <input type="number" id="billing-days" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="billing-pickup">Pickup Location:</label>
+            <input type="text" id="billing-pickup" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="billing-amount">Amount:</label>
+            <input type="number" id="billing-amount" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="billing-method">Payment Method:</label>
+            <select id="billing-method" required>
+              <option value="credit">Credit Card</option>
+              <option value="debit">Debit Card</option>
+              <option value="cash">Cash</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="billing-notes">Notes:</label>
+            <textarea id="billing-notes" rows="4"></textarea>
+          </div>
+          <input type="submit" value="Submit" />
+        </form>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section-content">
+        <h2 style="color: yellow;">Contact Us</h2>
+        <form class="form-section" onsubmit="return showThankYou()">
+          <div class="form-group">
+            <label class="blue-label" for="contact-name">Your Name:</label>
+            <input type="text" id="contact-name" required />
+          </div>
+          <div class="form-group">
+            <label class="blue-label" for="contact-message">Your Message:</label>
+            <textarea id="contact-message" rows="4" required></textarea>
+          </div>
+          <input type="submit" value="Send" />
+        </form>
+      </section>
+
+      <div id="thank-you-message" class="form-section">
+        <h2 style="color: red; font-weight: bold;">THANK YOU FOR CHOOSING RENT RIDE!</h2>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 RentRide. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function authenticate(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username === 'admin' && password === '1234') {
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('user-display').innerText = username;
+      } else {
+        alert('Invalid credentials, please try again.');
+      }
+    }
+
+    function logout() {
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('thank-you-message').style.display = 'none';
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function showThankYou() {
+      document.getElementById('thank-you-message').style.display = 'block';
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => showSection('home'));
+  </script>
+</body>
+</html>
